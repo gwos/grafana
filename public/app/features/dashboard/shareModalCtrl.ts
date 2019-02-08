@@ -88,6 +88,9 @@ export function ShareModalCtrl($scope, $rootScope, $location, $timeout, timeSrv,
     );
     $scope.imageUrl = $scope.imageUrl.replace(config.appSubUrl + '/d-solo/', config.appSubUrl + '/render/d-solo/');
     $scope.imageUrl += '&width=1000&height=500' + $scope.getLocalTimeZone();
+    if (config.appLinkSubUrl !== config.appSubUrl) {
+      $scope.shareUrl = $scope.shareUrl.replace(config.appSubUrl, config.appLinkSubUrl);
+    }
   };
 
   // This function will try to return the proper full name of the local timezone
