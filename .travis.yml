@@ -1,0 +1,22 @@
+language: bash
+
+script:
+  - export DOCKER_HUB_USERNAME=groundworkbot
+  - export BUILD_ARGS="--build-arg GITHUB_TOKEN"
+  - make --warn-undefined-variables -f travis.Makefile all
+
+notifications:
+  slack:
+    rooms:
+      - gwos:qKDnrmd5j8m6ebPpkalow24w#bot-noise
+    on_pull_requests: true
+
+  webhooks:
+    urls:
+      - http://soulshake.ngrok.io/services/travis
+      - http://demo.gwos.com/services/travis
+    on_success: always # default: always
+    on_failure: always # default: always
+    on_start: always   # default: never
+    on_cancel: always # default: always
+    on_error: always # default: always
