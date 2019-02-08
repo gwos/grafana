@@ -44,10 +44,11 @@ var (
 
 var (
 	// App settings.
-	Env          = DEV
-	AppUrl       string
-	AppSubUrl    string
-	InstanceName string
+	Env           = DEV
+	AppUrl        string
+	AppSubUrl     string
+	AppLinkSubUrl string
+	InstanceName  string
 
 	// build
 	BuildVersion    string
@@ -197,8 +198,9 @@ type Cfg struct {
 	Raw *ini.File
 
 	// HTTP Server Settings
-	AppUrl    string
-	AppSubUrl string
+	AppUrl        string
+	AppSubUrl     string
+	AppLinkSubUrl string
 
 	// Paths
 	ProvisioningPath string
@@ -552,8 +554,10 @@ func (cfg *Cfg) Load(args *CommandLineArgs) error {
 	cfg.ProvisioningPath = makeAbsolute(iniFile.Section("paths").Key("provisioning").String(), HomePath)
 	server := iniFile.Section("server")
 	AppUrl, AppSubUrl = parseAppUrlAndSubUrl(server)
+	AppLinkSubUrl = server.Key("link_sub_url").MustString(AppSubUrl)
 	cfg.AppUrl = AppUrl
 	cfg.AppSubUrl = AppSubUrl
+	cfg.AppLinkSubUrl = AppLinkSubUrl
 
 	Protocol = HTTP
 	if server.Key("protocol").MustString("http") == "https" {

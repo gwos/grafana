@@ -12,6 +12,7 @@ export class Settings {
   datasources: any;
   panels: PanelPlugin[];
   appSubUrl: string;
+  appLinkSubUrl: string;
   windowTitlePrefix: string;
   buildInfo: BuildInfo;
   newPanelTitle: string;

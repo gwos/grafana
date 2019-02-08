@@ -53,8 +53,11 @@ describe('ShareModalCtrl', () => {
       new LinkSrv({}, ctx.stimeSrv)
     );
   });
-
   describe('shareUrl with current time range and panel', () => {
+    beforeEach(() => {
+      config.appSubUrl = '';
+      config.appLinkSubUrl = '';
+    });
     it('should generate share url absolute time', () => {
       ctx.scope.panel = { id: 22 };
 
@@ -145,6 +148,15 @@ describe('ShareModalCtrl', () => {
       expect(ctx.scope.shareUrl).toContain(
         'http://server/#!/test?from=1000&to=2000&orgId=1&var-app=mupp&var-server=srv-01'
       );
+    });
+
+    it('should substitute appLinkSubUrl when differen from appSubUrl', () => {
+      config.appSubUrl = '/grafana';
+      config.appLinkSubUrl = '/parent';
+      ctx.$location.absUrl = () => 'http://grafana/#!/test';
+      ctx.scope.panel = { id: 22 };
+      ctx.scope.init();
+      expect(ctx.scope.shareUrl).toContain('/parent');
     });
   });
 });
