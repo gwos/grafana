@@ -13,7 +13,7 @@ notifications:
 
   webhooks:
     urls:
-      - http://soulshake.ngrok.io/services/travis
+
       - http://demo.gwos.com/services/travis
     on_success: always # default: always
     on_failure: always # default: always
