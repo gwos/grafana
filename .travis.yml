@@ -1,22 +1,18 @@
 language: bash
-
 script:
-  - export DOCKER_HUB_USERNAME=groundworkbot
-  - export BUILD_ARGS="--build-arg GITHUB_TOKEN"
-  - make --warn-undefined-variables -f travis.Makefile all
-
+- export DOCKER_HUB_USERNAME=groundworkbot
+- export BUILD_ARGS="--build-arg GITHUB_TOKEN"
+- make --warn-undefined-variables -f travis.Makefile all
 notifications:
   slack:
     rooms:
-      secure: kHK3HZerCfgvMCb+oN6bZ8fG1Lef+rFmkIl5X/uRILIXbbXi4CSICjYHMCmS43x2is+A79j9qyq05blEp7SUk/C/XSFIDYVcDrD6L4jCyartbZc52QmNAV6SD3mbnn6kIDcJ2D9c6r10hTTSgM1YasocxHNOsryXm3IJuKYj/xST8qCDpreP9ce/E4jfg6RDxjeam1/OWtxgVGgdDMf0AIfmhHzWcfUZdyxal8/nnzWdTGGq4fmc2wz8pXVU1eBynyFB3C+C1CKqLAkLqUSQuDCiSkHsgg0Wg/fnQWP0jevPLWEtzTQz2Bn7xsdqbgf4i97zGTVtqwHJ4HvPlueKIzIREzNHraRDARnhxPO9k3WofdBHxenbRuPigmbIMdELEdFw6L/ayXX26bNnCkBgbei8eAVBeT8Yt5V6klt99CLvtbfN46ZBW7eMKmqraYQFViPKbqdjc79z1XBiZU8kHeCLMxnv53MazNLUsgZUrYBXnVNGSjg13T2cbGIfwyf1wNKUpbDjK2pgscxtAWQm8R3V9H5zY3hO23R4uyCEfwh3aonefaQ6gqj484zKPVkEgydwH1i4ZTlnBT/ReT3vYVx29f5tZe7593w/Nmy+u2MqiebdFgcIB4s9UwxFN3lSz0CollT75xuY1bxT40U09JGceEQgGfKssd7Zjh3Mkkw=
+      secure: Vj/h5hUUL77QKaj/lijUOqdqRswwRPF0VJhNvW5UfALdrVBoX+QvUFJ2T/RcMCwkq36BZaU5T6LkohUtqa2gEwwmYAN7JCSEg22sQTrZ8ONzvHXH770VJGyHOoHGEyoVbbx4x/3V6J2yO1JcoRH1kyM2Seuwo03Ia7YZ4HQCB14yR36zx7Kt7yZjaQP33OhBydbnuAVPfVxUW0hoC11vEhfS0g6CgFTDD7LFmluQ4VGnTtGZNj7OvZ5MhFNh8McYzYk19Bak2N67zZwM/0Ix1DOY/Bvda6oOjV3Are46TJo3WE7iNTEBurPE9ZSsqtD8XqUz4LcLZ/pLhWhLRAaCzuX7BQRlnVPxupQpjWqEcK47hLYrslQGXFR+9nWsYmJLTPEhfYYdwcjEUgDCMlhkuV60BfxSJBx6iHEJq1WAdkagaVNQOzqFTq2cz9XKKc5I/Lzi9ds8pIzVFdX/3rn+ZAcuMCFmXlzqZ7RDKd14P6SOMYJ/w1nr+hQPQQdTT0jr6wAu6Y+YQ8AOi0+gJdkSti/f90FARt0aYmOq1cAAJyA7Ev85iQGiOwePgyv4tXggddvdRP34z03ZMWDXL47VZRw7Wh6uQQ0vpma+2mu9oo6ueR1kkgRxmLA8yd9PZwnnrkyDUUQSRlargnNsEhyPQapful+DpR1fDUISHyAumXM=
     on_pull_requests: true
-
   webhooks:
     urls:
-
-      - http://demo.gwos.com/services/travis
-    on_success: always # default: always
-    on_failure: always # default: always
-    on_start: always   # default: never
-    on_cancel: always # default: always
-    on_error: always # default: always
+    - http://demo.gwos.com/services/travis
+    on_success: always
+    on_failure: always
+    on_start: always
+    on_cancel: always
+    on_error: always
