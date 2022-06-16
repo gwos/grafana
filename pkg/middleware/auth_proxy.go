@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net"
 	"net/mail"
+	"net/url"
 	"reflect"
 	"strings"
 	"time"
@@ -25,6 +26,10 @@ func initContextWithAuthProxy(ctx *m.ReqContext, orgID int64) bool {
 
 	proxyHeaderValue := ctx.Req.Header.Get(setting.AuthProxyHeaderName)
 	if len(proxyHeaderValue) == 0 {
+		return false
+	}
+	var unescapeErr error
+	if proxyHeaderValue, unescapeErr = url.QueryUnescape(proxyHeaderValue); unescapeErr != nil {
 		return false
 	}
 
