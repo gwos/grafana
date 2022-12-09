@@ -35,7 +35,7 @@ ENV NODE_ENV production
 RUN ./node_modules/.bin/grunt build
 
 # Final container
-FROM debian:bullseye-slim
+FROM debian:stretch-slim
 
 ARG GF_UID="472"
 ARG GF_GID="472"
