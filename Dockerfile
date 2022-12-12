@@ -57,6 +57,8 @@ RUN apt-get update && apt-get upgrade -y && \
 
 COPY conf ./conf
 
+COPY docker_cmd.sh ./
+
 RUN mkdir -p "$GF_PATHS_HOME/.aws" && \
     groupadd -r -g $GF_GID grafana && \
     useradd -r -u $GF_UID -g grafana grafana && \
@@ -80,4 +82,5 @@ EXPOSE 3000
 COPY ./packaging/docker/run.sh /run.sh
 
 USER grafana
-ENTRYPOINT [ "/run.sh" ]
+
+CMD [ "$GF_PATHS_HOME/docker_cmd.sh", "/run.sh" ]
