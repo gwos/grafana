@@ -166,7 +166,7 @@
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "remarkable": "^1.7.1",
+    "remarkable": "^1.7.2",
     "rst2html": "github:thoward/rst2html#990cb89",
     "rxjs": "^5.4.3",
     "slate": "^0.33.4",
