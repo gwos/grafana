@@ -1,5 +1,7 @@
 ## GROUNDWORK GRAFANA
 
+### TODO: This readme is out of date, and mostly incorrect.
+
 Groundwork Grafana is built off the latest stable 5.4.x branch of Grafana. This branch enables an iframe substitution on links in the Grafana graph/dashboard share modal.
 
 [Grafana](https://grafana.com) [![Circle CI](https://circleci.com/gh/grafana/grafana.svg?style=svg)](https://circleci.com/gh/grafana/grafana) [![Go Report Card](https://goreportcard.com/badge/github.com/grafana/grafana)](https://goreportcard.com/report/github.com/grafana/grafana) [![codecov](https://codecov.io/gh/grafana/grafana/branch/master/graph/badge.svg)](https://codecov.io/gh/grafana/grafana)
