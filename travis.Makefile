@@ -47,7 +47,7 @@ login:
 
 
 build:
-	docker build ${BUILD_ARGS} -t ${IMG} .
+	docker build --no-cache ${BUILD_ARGS} -t ${IMG} .
 
 
 tag:
