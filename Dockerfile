@@ -45,7 +45,7 @@ COPY ./check-groundwork-plugin.sh "$GF_PATHS_HOME"/.
 COPY --from=builder /tmp/dist /var/lib/grafana/plugins/groundwork-datasource
 WORKDIR /var/lib/grafana/plugins
 RUN tar -czvf groundwork-datasource.tgz groundwork-datasource \
-	&& chmod 777 "$GF_PATHS_HOME/check-groundwork-plugin.sh"
+	&& chmod 777 "$GF_PATHS_HOME/check-groundwork-plugin.sh" && chmod 777 "$GF_PATHS_PROVISIONING/datasources/groundwork-datasource.yml"
 
 RUN apt update -qy \
     && apt install -qy wget \
