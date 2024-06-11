@@ -40,12 +40,12 @@ RUN mkdir -p "$GF_PATHS_HOME/.aws" && \
   rm -rf /var/lib/grafana/dashboards
 
 COPY docker_cmd.sh ./
-COPY ./groundwork-datasource.yaml "$GF_PATHS_PROVISIONING"/datasources/.
+COPY ./groundwork-datasource.yml "$GF_PATHS_PROVISIONING"/datasources/.
 COPY ./check-groundwork-plugin.sh "$GF_PATHS_HOME"/.
 COPY --from=builder /tmp/dist /var/lib/grafana/plugins/groundwork-datasource
 WORKDIR /var/lib/grafana/plugins
 RUN tar -czvf groundwork-datasource.tgz groundwork-datasource \
-  && chmod 777 "$GF_PATHS_HOME/check-groundwork-plugin.sh"
+	&& chmod 777 "$GF_PATHS_HOME/check-groundwork-plugin.sh" && chmod 777 "$GF_PATHS_PROVISIONING/datasources/groundwork-datasource.yml"
 
 RUN apt update -qy \
   && apt install -qy wget \
@@ -57,10 +57,10 @@ RUN apt update -qy \
 
 ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 /usr/local/bin/dumb-init
 RUN chmod +x /usr/local/bin/dumb-init \
-  &&   grafana cli plugins install grafana-image-renderer v3.7.2
+    &&   grafana cli plugins install grafana-image-renderer v3.7.2
 
 RUN line=`grep -n "exec" /run.sh | awk -F  ":" '{print $1}'` \
-  && sed -i "$line"'i exec /usr/share/grafana/check-groundwork-plugin.sh &' /run.sh
+	&& sed -i "$line"'i exec /usr/share/grafana/check-groundwork-plugin.sh &' /run.sh
 
 
 WORKDIR $GF_PATHS_HOME
