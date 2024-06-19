@@ -39,7 +39,6 @@ RUN mkdir -p "$GF_PATHS_HOME/.aws" && \
   chmod 777 "$GF_PATHS_DATA" "$GF_PATHS_HOME/.aws" "$GF_PATHS_LOGS" "$GF_PATHS_PLUGINS" &&\
   rm -rf /var/lib/grafana/dashboards
 
-COPY docker_cmd.sh ./
 COPY ./groundwork-datasource.yml "$GF_PATHS_PROVISIONING"/datasources/.
 COPY ./check-groundwork-plugin.sh "$GF_PATHS_HOME"/.
 COPY --from=builder /tmp/dist /var/lib/grafana/plugins/groundwork-datasource
@@ -55,9 +54,9 @@ RUN apt update -qy \
   --no-install-recommends \
   && rm -rf /var/lib/apt/lists/* /tmp/google-chrome-stable_amd64.deb
 
-ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 /usr/local/bin/dumb-init
+ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64 /usr/local/bin/dumb-init
 RUN chmod +x /usr/local/bin/dumb-init \
-    &&   grafana cli plugins install grafana-image-renderer v3.7.2
+    && grafana cli plugins install grafana-image-renderer v3.7.2
 
 RUN line=`grep -n "exec" /run.sh | awk -F  ":" '{print $1}'` \
 	&& sed -i "$line"'i exec /usr/share/grafana/check-groundwork-plugin.sh &' /run.sh
@@ -69,4 +68,6 @@ EXPOSE 3000
 
 USER grafana
 
-CMD [ "$GF_PATHS_HOME/docker_cmd.sh", "/run.sh" ]
+ENTRYPOINT ["dumb-init"]
+
+CMD ["/run.sh"]
