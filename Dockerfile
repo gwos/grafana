@@ -3,7 +3,7 @@ FROM node:16-alpine3.16 AS builder
 ARG GITHUB_TOKEN
 WORKDIR /tmp
 
-RUN wget --header="Authorization: token ${GITHUB_TOKEN}"     -O ds.zip https://api.github.com/repos/gwos/next-grafana-datasource/zipball/GROUNDWORK-3027-multiselect-improvement \
+RUN wget --header="Authorization: token ${GITHUB_TOKEN}"     -O ds.zip https://api.github.com/repos/gwos/next-grafana-datasource/zipball/8.7.8/GROUNDWORK-3027-multiselect-improvement \
   && unzip ds.zip \
   && mv gwos-next-grafana* gwos-next-grafana \
   && cd gwos-next-grafana \
