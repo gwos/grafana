@@ -39,16 +39,19 @@ RUN mkdir -p "$GF_PATHS_HOME/.aws" && \
     chmod 777 "$GF_PATHS_DATA" "$GF_PATHS_HOME/.aws" "$GF_PATHS_LOGS" "$GF_PATHS_PLUGINS" &&\
     rm -rf /var/lib/grafana/dashboards
 
+COPY ./check-groundwork-plugin.sh /check-groundwork-plugin.sh
 COPY ./groundwork-datasource.yml "$GF_PATHS_PROVISIONING"/datasources/.
-COPY ./check-groundwork-plugin.sh "$GF_PATHS_HOME"/.
 COPY --from=builder /tmp/dist /var/lib/grafana/plugins/groundwork-datasource
 WORKDIR /var/lib/grafana/plugins
 RUN tar -czvf groundwork-datasource.tgz groundwork-datasource \
-	&& chmod 777 "$GF_PATHS_HOME/check-groundwork-plugin.sh" && chmod 777 "$GF_PATHS_PROVISIONING/datasources/groundwork-datasource.yml"
+    && chmod 664 "$GF_PATHS_PROVISIONING/datasources/groundwork-datasource.yml" \
+	&& chmod 775 /check-groundwork-plugin.sh
+RUN sed -i '/export HOME/a \\nsource /check-groundwork-plugin.sh' /run.sh
 
 RUN apt update -qy \
     && apt install -qy wget \
-    && wget --no-verbose -O /tmp/google-chrome-stable_amd64.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_116.0.5845.110-1_amd64.deb \
+    && wget --no-verbose -O /tmp/google-chrome-stable_amd64.deb \
+        https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_116.0.5845.110-1_amd64.deb \
     && apt install -y /tmp/google-chrome-stable_amd64.deb \
     && apt install -qy fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf \
       --no-install-recommends \
@@ -57,10 +60,6 @@ RUN apt update -qy \
 ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64 /usr/local/bin/dumb-init
 RUN chmod +x /usr/local/bin/dumb-init \
     && grafana cli plugins install grafana-image-renderer v3.7.2
-
-RUN line=`grep -n "exec" /run.sh | awk -F  ":" '{print $1}'` \
-	&& sed -i "$line"'i exec /usr/share/grafana/check-groundwork-plugin.sh &' /run.sh
-
 
 WORKDIR $GF_PATHS_HOME
 
