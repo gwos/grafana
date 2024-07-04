@@ -28,25 +28,41 @@ WORKDIR $GF_PATHS_HOME
 
 USER 0
 
-RUN mkdir -p "$GF_PATHS_HOME/.aws" && \
-    mkdir -p "$GF_PATHS_PROVISIONING/datasources" \
-             "$GF_PATHS_PROVISIONING/dashboards" \
-             "$GF_PATHS_LOGS" \
-             "$GF_PATHS_PLUGINS" \
-             "$GF_PATHS_DATA" && \
+RUN mkdir -p  "$GF_PATHS_HOME/.aws" \
+              "$GF_PATHS_LOGS" \
+              "$GF_PATHS_PLUGINS" \
+              "$GF_PATHS_PROVISIONING/alerting" \
+              "$GF_PATHS_PROVISIONING/dashboards" \
+              "$GF_PATHS_PROVISIONING/datasources" \
+              "$GF_PATHS_PROVISIONING/notifiers" \
+              "$GF_PATHS_DATA" && \
+    chmod 777 "$GF_PATHS_HOME/.aws" \
+              "$GF_PATHS_LOGS" \
+              "$GF_PATHS_PLUGINS" \
+              "$GF_PATHS_PROVISIONING/alerting" \
+              "$GF_PATHS_PROVISIONING/dashboards" \
+              "$GF_PATHS_PROVISIONING/datasources" \
+              "$GF_PATHS_PROVISIONING/notifiers" \
+              "$GF_PATHS_DATA" && \
     cp "$GF_PATHS_HOME/conf/sample.ini" "$GF_PATHS_CONFIG" && \
     cp "$GF_PATHS_HOME/conf/ldap.toml" /etc/grafana/ldap.toml && \
-    chmod 777 "$GF_PATHS_DATA" "$GF_PATHS_HOME/.aws" "$GF_PATHS_LOGS" "$GF_PATHS_PLUGINS" &&\
     rm -rf /var/lib/grafana/dashboards
 
+# Note volumes mounts. So, process groundwork-datasource.yml by check-groundwork-plugin.sh
+# volumes:
+#   - grafana-etc:/etc/grafana
+#   - grafana-provisioning:/etc/grafana/provisioning
+#   - grafana-dashboards:/var/lib/grafana/dashboards
+
 COPY ./check-groundwork-plugin.sh /check-groundwork-plugin.sh
+COPY ./groundwork-datasource.yml /.groundwork-datasource.yml
 COPY ./groundwork-datasource.yml "$GF_PATHS_PROVISIONING"/datasources/.
 COPY --from=builder /tmp/dist /var/lib/grafana/plugins/groundwork-datasource
 WORKDIR /var/lib/grafana/plugins
 RUN tar -czvf groundwork-datasource.tgz groundwork-datasource \
-    && chmod 664 "$GF_PATHS_PROVISIONING/datasources/groundwork-datasource.yml" \
-	&& chmod 775 /check-groundwork-plugin.sh
-RUN sed -i '/export HOME/a \\nsource /check-groundwork-plugin.sh' /run.sh
+    && chmod 664 /.groundwork-datasource.yml "$GF_PATHS_PROVISIONING/datasources/groundwork-datasource.yml" \
+	&& chmod 775 /check-groundwork-plugin.sh \
+    && sed -i '/export HOME/a \\nsource /check-groundwork-plugin.sh' /run.sh
 
 RUN apt update -qy \
     && apt install -qy wget \
