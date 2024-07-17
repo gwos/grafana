@@ -39,6 +39,7 @@ RUN mkdir -p "$GF_PATHS_HOME/.aws" && \
     chmod 777 "$GF_PATHS_DATA" "$GF_PATHS_HOME/.aws" "$GF_PATHS_LOGS" "$GF_PATHS_PLUGINS" &&\
     rm -rf /var/lib/grafana/dashboards
 
+COPY ./docker_cmd.sh /docker_cmd.sh
 COPY ./check-groundwork-plugin.sh /check-groundwork-plugin.sh
 COPY ./groundwork-datasource.yml "$GF_PATHS_PROVISIONING"/datasources/.
 COPY --from=builder /tmp/dist /var/lib/grafana/plugins/groundwork-datasource
@@ -67,6 +68,6 @@ EXPOSE 3000
 
 USER grafana
 
-ENTRYPOINT ["dumb-init"]
+ENTRYPOINT ["/docker_cmd.sh", "dumb-init"]
 
 CMD ["/run.sh"]
