@@ -46,7 +46,7 @@ COPY --from=builder /tmp/dist /var/lib/grafana/plugins/groundwork-datasource
 WORKDIR /var/lib/grafana/plugins
 RUN tar -czvf groundwork-datasource.tgz groundwork-datasource \
     && chmod 664 "$GF_PATHS_PROVISIONING/datasources/groundwork-datasource.yml" \
-	&& chmod 775 /check-groundwork-plugin.sh
+	&& chmod 775 /check-groundwork-plugin.sh && chmod 755 /docker_cmd.sh
 RUN sed -i '/export HOME/a \\nsource /check-groundwork-plugin.sh' /run.sh
 
 RUN apt update -qy \
