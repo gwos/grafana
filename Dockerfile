@@ -58,6 +58,19 @@ RUN apt update -qy \
       --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* /tmp/google-chrome-stable_amd64.deb
 
+
+RUN apt-get update -qq \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -qqy \
+    curl \
+    software-properties-common \
+    tzdata
+
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+RUN apt-get install -qqy docker-ce
+
+RUN apt-get purge unattended-upgrades -y
+
 ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64 /usr/local/bin/dumb-init
 RUN chmod +x /usr/local/bin/dumb-init \
     && grafana cli plugins install grafana-image-renderer v3.7.2
