@@ -27,7 +27,7 @@ ENV PATH=/usr/share/grafana/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bi
 WORKDIR $GF_PATHS_HOME
 
 USER 0
-    
+
 RUN mkdir -p "$GF_PATHS_HOME/.aws" && \
     mkdir -p "$GF_PATHS_PROVISIONING/datasources" \
              "$GF_PATHS_PROVISIONING/dashboards" \
@@ -49,19 +49,16 @@ RUN tar -czvf groundwork-datasource.tgz groundwork-datasource \
 
 RUN apt update -qy \
     && apt install -qy wget \
-    && wget --no-verbose -O /tmp/google-chrome-stable_amd64.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_116.0.5845.110-1_amd64.deb \
+    && wget --no-verbose -O /tmp/google-chrome-stable_amd64.deb \
+        https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_116.0.5845.187-1_amd64.deb \
     && apt install -y /tmp/google-chrome-stable_amd64.deb \
     && apt install -qy fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf \
       --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* /tmp/google-chrome-stable_amd64.deb
 
-ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 /usr/local/bin/dumb-init
+ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64 /usr/local/bin/dumb-init
 RUN chmod +x /usr/local/bin/dumb-init \
-    &&   grafana cli plugins install grafana-image-renderer v3.7.2
-  
-RUN line=`grep -n "exec" /run.sh | awk -F  ":" '{print $1}'` \
-	&& sed -i "$line"'i exec /usr/share/grafana/check-groundwork-plugin.sh &' /run.sh 
-      
+    && grafana cli plugins install grafana-image-renderer v3.11.2
 
 WORKDIR $GF_PATHS_HOME
 
@@ -69,4 +66,6 @@ EXPOSE 3000
 
 USER grafana
 
-CMD [ "$GF_PATHS_HOME/docker_cmd.sh", "/run.sh" ]
+ENTRYPOINT ["dumb-init"]
+
+CMD ["/run.sh"]
