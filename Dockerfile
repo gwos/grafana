@@ -3,7 +3,7 @@ FROM node:16-alpine3.16 AS builder
 ARG GITHUB_TOKEN
 WORKDIR /tmp
 
-RUN wget --header="Authorization: token ${GITHUB_TOKEN}"     -O ds.zip https://api.github.com/repos/gwos/next-grafana-datasource/zipball/GROUNDWORK-3313-search-by-hosts-services-threholds \
+RUN wget --header="Authorization: token ${GITHUB_TOKEN}"     -O ds.zip https://api.github.com/repos/gwos/next-grafana-datasource/zipball/GROUNDWORK-3175-grafana-deriv-operation \
  && unzip ds.zip \
  && mv gwos-next-grafana* gwos-next-grafana \
  && cd gwos-next-grafana \
@@ -13,8 +13,10 @@ RUN wget --header="Authorization: token ${GITHUB_TOKEN}"     -O ds.zip https://a
 
 FROM grafana/grafana:9.4.7-ubuntu
 
+
 ARG GF_UID="472"
 ARG GF_GID="472"
+
 
 ENV PATH=/usr/share/grafana/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
     GF_PATHS_CONFIG="/etc/grafana/grafana.ini" \
@@ -51,7 +53,7 @@ RUN sed -i '/export HOME/a \\nsource /check-groundwork-plugin.sh' /run.sh
 RUN apt update -qy \
     && apt install -qy wget \
     && wget --no-verbose -O /tmp/google-chrome-stable_amd64.deb \
-        https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_116.0.5845.187-1_amd64.deb \
+        https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_128.0.6613.84-1_amd64.deb \
     && apt install -y /tmp/google-chrome-stable_amd64.deb \
     && apt install -qy fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf \
       --no-install-recommends \
