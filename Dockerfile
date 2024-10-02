@@ -16,7 +16,6 @@ FROM grafana/grafana:9.4.7-ubuntu
 ARG GF_UID="472"
 ARG GF_GID="472"
 
-
 ENV PATH=/usr/share/grafana/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
     GF_PATHS_CONFIG="/etc/grafana/grafana.ini" \
     GF_PATHS_DATA="/var/lib/grafana" \
