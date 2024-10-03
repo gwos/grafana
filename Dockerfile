@@ -59,7 +59,7 @@ RUN apt update -qy \
 
 ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64 /usr/local/bin/dumb-init
 RUN chmod +x /usr/local/bin/dumb-init \
-    && grafana cli plugins install grafana-image-renderer v3.7.2
+    && grafana cli plugins install grafana-image-renderer v3.11.5
 
 WORKDIR $GF_PATHS_HOME
 
