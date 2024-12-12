@@ -9,6 +9,7 @@ else
                 "$GF_PATHS_PROVISIONING/dashboards" \
                 "$GF_PATHS_PROVISIONING/datasources" \
                 "$GF_PATHS_PROVISIONING/notifiers" \
+                "$GF_PATHS_PROVISIONING/plugins" \
                 "$GF_PATHS_DATA"
 
     chmod 777   "$GF_PATHS_HOME/.aws" \
@@ -18,6 +19,7 @@ else
                 "$GF_PATHS_PROVISIONING/dashboards" \
                 "$GF_PATHS_PROVISIONING/datasources" \
                 "$GF_PATHS_PROVISIONING/notifiers" \
+                "$GF_PATHS_PROVISIONING/plugins" \
                 "$GF_PATHS_DATA"
 
     cp "$GF_PATHS_HOME/conf/sample.ini" "$GF_PATHS_CONFIG"
