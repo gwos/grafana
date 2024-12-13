@@ -49,7 +49,7 @@ RUN tar -czvf groundwork-datasource.tgz groundwork-datasource \
 RUN sed -i '/export HOME/a \\nsource /check-groundwork-plugin.sh' /run.sh
 
 RUN apt update -qy \
-    && apt install -qy wget \
+    && apt install -qy wget vim \
     && wget --no-verbose -O /tmp/google-chrome-stable_amd64.deb \
         https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
     && apt install -y /tmp/google-chrome-stable_amd64.deb \
