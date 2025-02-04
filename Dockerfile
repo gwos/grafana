@@ -13,7 +13,7 @@ RUN wget --header="Authorization: token ${GITHUB_TOKEN}"     -O ds.zip https://a
  && unzip ds.zip \
  && mv gwos-next-grafana* gwos-next-grafana \
  && cd gwos-next-grafana \
- && RUN yarn install --frozen-lockfile
+ && RUN yarn install --frozen-lockfile \
  && yarn \
  && yarn build \
  && mv dist /tmp/.
