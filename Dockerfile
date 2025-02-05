@@ -1,12 +1,19 @@
-FROM node:16-alpine3.16 AS builder
+FROM node:18-alpine AS builder
 
 ARG GITHUB_TOKEN
 WORKDIR /tmp
+
+# Remove conflicting lock files (if they exist)
+RUN rm -f package-lock.json yarn.lock
+
+# Disable strict engine version checks
+RUN yarn config set ignore-engines true
 
 RUN wget --header="Authorization: token ${GITHUB_TOKEN}"     -O ds.zip https://api.github.com/repos/gwos/next-grafana-datasource/zipball/8.8.3 \
  && unzip ds.zip \
  && mv gwos-next-grafana* gwos-next-grafana \
  && cd gwos-next-grafana \
+ && yarn install \
  && yarn \
  && yarn build \
  && mv dist /tmp/.
