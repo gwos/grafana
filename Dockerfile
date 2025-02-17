@@ -9,7 +9,7 @@ RUN rm -f package-lock.json yarn.lock
 # Disable strict engine version checks
 RUN yarn config set ignore-engines true
 
-RUN wget --header="Authorization: token ${GITHUB_TOKEN}"     -O ds.zip https://api.github.com/repos/gwos/next-grafana-datasource/zipball/8.8.3 \
+RUN wget --header="Authorization: token ${GITHUB_TOKEN}"     -O ds.zip https://api.github.com/repos/gwos/next-grafana-datasource/zipball/8.8.3-GA \
  && unzip ds.zip \
  && mv gwos-next-grafana* gwos-next-grafana \
  && cd gwos-next-grafana \
