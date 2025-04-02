@@ -11,7 +11,7 @@ RUN wget --header="Authorization: token ${GITHUB_TOKEN}"     -O ds.zip https://a
  && yarn build \
  && mv dist /tmp/.
 
-FROM grafana/grafana:9.4.7-ubuntu
+FROM grafana/grafana:10.4.17-ubuntu
 
 ARG GF_UID="472"
 ARG GF_GID="472"
