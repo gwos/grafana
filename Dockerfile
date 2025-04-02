@@ -1,4 +1,4 @@
-FROM node:16-alpine3.16 AS builder
+FROM node:18-alpine3.21 AS builder
 
 ARG GITHUB_TOKEN
 WORKDIR /tmp
@@ -11,7 +11,8 @@ RUN wget --header="Authorization: token ${GITHUB_TOKEN}"     -O ds.zip https://a
  && yarn build \
  && mv dist /tmp/.
 
-FROM grafana/grafana:9.4.7-ubuntu
+# FROM grafana/grafana:9.5.21-ubuntu
+FROM grafana/grafana:10.4.17-ubuntu
 
 ARG GF_UID="472"
 ARG GF_GID="472"
