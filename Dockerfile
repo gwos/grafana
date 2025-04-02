@@ -55,6 +55,7 @@ RUN apt update -qy \
     && apt install -y /tmp/google-chrome-stable_amd64.deb \
     && apt install -qy fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf \
       --no-install-recommends \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/google-chrome-stable_amd64.deb
 
 ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64 /usr/local/bin/dumb-init
