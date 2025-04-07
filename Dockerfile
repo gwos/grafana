@@ -71,7 +71,7 @@ RUN apt update -qy \
     && wget --no-verbose -O /tmp/google-chrome-stable_amd64.deb \
         https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
     && apt install -y /tmp/google-chrome-stable_amd64.deb \
-    && apt install -qy fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf \
+    # && apt install -qy fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf \
       --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* /tmp/google-chrome-stable_amd64.deb
 
