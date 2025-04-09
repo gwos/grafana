@@ -67,11 +67,11 @@ RUN tar -czvf groundwork-datasource.tgz groundwork-datasource \
     && sed -i '/export HOME/a \\nsource /check-groundwork-plugin.sh' /run.sh
 
 
-RUN apt-get update --allow-insecure-repositories -qy \
-    && apt-get install -qy wget vim \
+RUN apt update -qy \
+    && apt install -qy wget vim \
     && wget --no-verbose -O /tmp/google-chrome-stable_amd64.deb \
         https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-    && apt install -y /tmp/google-chrome-stable_amd64.deb --no-install-recommends \
+    && apt install -y /tmp/google-chrome-stable_amd64.deb \
     && apt install -qy fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf \
       --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* /tmp/google-chrome-stable_amd64.deb
