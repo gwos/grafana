@@ -66,14 +66,16 @@ RUN tar -czvf groundwork-datasource.tgz groundwork-datasource \
 	&& chmod 775 /check-groundwork-plugin.sh \
     && sed -i '/export HOME/a \\nsource /check-groundwork-plugin.sh' /run.sh
 
-RUN apt update -qy \
-    && apt install -qy wget vim \
+RUN mkdir -p /var/cache/apt/archives/partial \
+    && apt-get update -qy \
+    && apt-get install -qy wget vim \
     && wget --no-verbose -O /tmp/google-chrome-stable_amd64.deb \
         https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-    && apt install -y /tmp/google-chrome-stable_amd64.deb \
-    # && apt install -qy fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf \
+    && apt-get install -y /tmp/google-chrome-stable_amd64.deb --no-install-recommends \
+    && apt-get install -qy fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf \
       --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/* /tmp/google-chrome-stable_amd64.deb
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/google-chrome-stable_amd64.deb /var/cache/apt/archives/*.deb
 
 ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64 /usr/local/bin/dumb-init
 RUN chmod +x /usr/local/bin/dumb-init \
