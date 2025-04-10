@@ -11,7 +11,7 @@ RUN wget --header="Authorization: token ${GITHUB_TOKEN}"     -O ds.zip https://a
  && yarn build \
  && mv dist /tmp/.
 
-FROM grafana/grafana:9.4.7-ubuntu
+FROM grafana/grafana:10.4.17-ubuntu
 
 ARG GF_UID="472"
 ARG GF_GID="472"
@@ -65,6 +65,7 @@ RUN tar -czvf groundwork-datasource.tgz groundwork-datasource \
     && chmod 664 /.groundwork-datasource.yml "$GF_PATHS_PROVISIONING/datasources/groundwork-datasource.yml" \
 	&& chmod 775 /check-groundwork-plugin.sh \
     && sed -i '/export HOME/a \\nsource /check-groundwork-plugin.sh' /run.sh
+
 
 RUN apt update -qy \
     && apt install -qy wget vim \
