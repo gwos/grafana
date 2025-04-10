@@ -1,4 +1,5 @@
 language: bash
+dist: jammy
 script:
 - export DOCKER_HUB_USERNAME=groundworkbot
 - export BUILD_ARGS="--build-arg GITHUB_TOKEN"
