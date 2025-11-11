@@ -3,7 +3,7 @@ FROM node:18-alpine3.21 AS builder
 ARG GITHUB_TOKEN
 WORKDIR /tmp
 
-RUN wget --header="Authorization: token ${GITHUB_TOKEN}"     -O ds.zip https://api.github.com/repos/gwos/next-grafana-datasource/zipball/8.11.0-RC7 \
+RUN wget --header="Authorization: token ${GITHUB_TOKEN}"     -O ds.zip https://api.github.com/repos/gwos/next-grafana-datasource/zipball/8.11.0 \
  && unzip ds.zip \
  && mv gwos-next-grafana* gwos-next-grafana \
  && cd gwos-next-grafana \
