@@ -96,3 +96,4 @@ USER grafana
 ENTRYPOINT ["dumb-init"]
 
 CMD ["/run.sh"]
+
