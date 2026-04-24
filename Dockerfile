@@ -11,7 +11,14 @@ RUN wget --header="Authorization: token ${GITHUB_TOKEN}"     -O ds.zip https://a
  && yarn build \
  && mv dist /tmp/.
 
-FROM grafana/grafana:10.4.17-ubuntu
+FROM grafana/grafana:10.4.19-ubuntu
+
+
+USER 0
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 ARG GF_UID="472"
 ARG GF_GID="472"
@@ -26,7 +33,7 @@ ENV PATH=/usr/share/grafana/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bi
 
 WORKDIR $GF_PATHS_HOME
 
-USER 0
+
 
 RUN mkdir -p  "$GF_PATHS_HOME/.aws" \
               "$GF_PATHS_LOGS" \
