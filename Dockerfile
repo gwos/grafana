@@ -1,3 +1,5 @@
+ARG GRAFANA_VERSION=12.4.13
+
 FROM node:18-alpine3.21 AS builder
 
 ARG GITHUB_TOKEN
@@ -11,7 +13,7 @@ RUN wget --header="Authorization: token ${GITHUB_TOKEN}"     -O ds.zip https://a
  && yarn build \
  && mv dist /tmp/.
 
-FROM grafana/grafana:10.4.19-ubuntu
+FROM grafana/grafana:${GRAFANA_VERSION}-ubuntu
 
 
 USER 0
@@ -38,6 +40,7 @@ WORKDIR $GF_PATHS_HOME
 RUN mkdir -p  "$GF_PATHS_HOME/.aws" \
               "$GF_PATHS_LOGS" \
               "$GF_PATHS_PLUGINS" \
+              "$GF_PATHS_PROVISIONING/access-control" \
               "$GF_PATHS_PROVISIONING/alerting" \
               "$GF_PATHS_PROVISIONING/dashboards" \
               "$GF_PATHS_PROVISIONING/datasources" \
@@ -47,6 +50,7 @@ RUN mkdir -p  "$GF_PATHS_HOME/.aws" \
     chmod 777 "$GF_PATHS_HOME/.aws" \
               "$GF_PATHS_LOGS" \
               "$GF_PATHS_PLUGINS" \
+              "$GF_PATHS_PROVISIONING/access-control" \
               "$GF_PATHS_PROVISIONING/alerting" \
               "$GF_PATHS_PROVISIONING/dashboards" \
               "$GF_PATHS_PROVISIONING/datasources" \
@@ -71,7 +75,8 @@ WORKDIR /var/lib/grafana/plugins
 RUN tar -czvf groundwork-datasource.tgz groundwork-datasource \
     && chmod 664 /.groundwork-datasource.yml "$GF_PATHS_PROVISIONING/datasources/groundwork-datasource.yml" \
 	&& chmod 775 /check-groundwork-plugin.sh \
-    && sed -i '/export HOME/a \\nsource /check-groundwork-plugin.sh' /run.sh
+    && sed -i '/export HOME/a \\nsource /check-groundwork-plugin.sh' /run.sh \
+    && grep -q '^source /check-groundwork-plugin.sh$' /run.sh
 
 
 RUN apt update -qy \
@@ -85,7 +90,8 @@ RUN apt update -qy \
 
 ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64 /usr/local/bin/dumb-init
 RUN chmod +x /usr/local/bin/dumb-init \
-    && grafana cli plugins install grafana-image-renderer v3.11.5
+    && grafana cli --homepath "$GF_PATHS_HOME" plugins install grafana-image-renderer v3.12.9 \
+    && chmod -R a+rX "$GF_PATHS_PLUGINS/grafana-image-renderer"
 
 WORKDIR $GF_PATHS_HOME
 
